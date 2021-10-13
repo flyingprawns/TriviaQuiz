@@ -25,7 +25,7 @@ for question in question_data:
 
 # ------------------ CREATE AND RUN QUIZ ------------------------ #
 quiz = QuizBrain(question_bank)
-quiz_ui = QuizInterface()
+quiz_ui = QuizInterface(quiz)
 
 # ------------------- END OF PROGRAM ---------------------------- #
 print("You've completed the quiz")
