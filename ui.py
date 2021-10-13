@@ -26,7 +26,6 @@ class QuizInterface:
         self.question_text = self.question.create_text(150, 135, text="default question",
                                                        width=280,
                                                        fill=THEME_COLOR, font=QUESTION_FONT)
-        self.get_next_question()
         self.question.grid(row=2, column=1, columnspan=2, pady=30)
         # Create "true" button
         true_img = tkinter.PhotoImage(file="./images/true.png")
@@ -40,19 +39,37 @@ class QuizInterface:
                                            command=self.false_button_press)
         self.false_button.config(bg=THEME_COLOR)
         self.false_button.grid(row=3, column=2, pady=20)
+        # Display first question
+        self.next_question()
         # Keep window open
         self.window.mainloop()
 
-    def get_next_question(self):
+    def next_question(self):
+        if self.quiz.still_has_questions():
+            # Update the score and quiz text.
+            self.score.config(text=f"Score: {self.quiz.score}")
+            q_text = self.quiz.next_question()
+            self.question.itemconfig(self.question_text, text=q_text)
+            # (re)-enable buttons so user can answer
+            self.enable_buttons()
+        else:
+            # Show end message and disable buttons
+            self.question.itemconfig(self.question_text, text="You've reached the end of the quiz.")
+            self.disable_buttons()
+        # Change question background to white
         self.question.config(bg="white")
-        q_text = self.quiz.next_question()
-        self.question.itemconfig(self.question_text, text=q_text)
 
     def true_button_press(self):
+        # Disable buttons to prevent bugs
+        self.disable_buttons()
+        # Check answer and give feedback
         is_right = self.quiz.check_answer("True")
         self.give_feedback(is_right)
 
     def false_button_press(self):
+        # Disable buttons to prevent bugs
+        self.disable_buttons()
+        # Check answer and give feedback
         is_right = self.quiz.check_answer("False")
         self.give_feedback(is_right)
 
@@ -62,8 +79,17 @@ class QuizInterface:
             self.question.config(bg="green")
         else:
             self.question.config(bg="red")
+        # Get next question
         # WARNING: be very careful with this method. It is not well documented and can lead to unexpected bugs.
-        self.window.after(1000, self.get_next_question)
+        self.window.after(1000, self.next_question)
+
+    def disable_buttons(self):
+        self.true_button.config(state="disabled")
+        self.false_button.config(state="disabled")
+
+    def enable_buttons(self):
+        self.true_button.config(state="active")
+        self.false_button.config(state="active")
 
     def show_window_size(self):
         # For debugging purposes. Prints the measurements of the main window.

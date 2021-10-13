@@ -5,7 +5,7 @@ import requests
 
 API_URL = "https://opentdb.com/api.php"
 API_PARAMETERS = {
-    "amount": 10,
+    "amount": 15,
     "type": "boolean",
 }
 
