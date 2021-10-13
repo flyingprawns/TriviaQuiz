@@ -12,16 +12,17 @@ class QuizInterface:
         self.window = tkinter.Tk()
         self.window.title("Trivia Quiz!")
         self.window.config(pady=20, padx=35, bg=THEME_COLOR)
-        self.window.minsize(width=374, height=522)
+        self.window.minsize(width=374, height=562)
+        self.window.maxsize(width=374, height=562)
         # Create score
         self.score = tkinter.Label(text="Score: 0", font=SCORE_FONT)
         self.score.config(bg=THEME_COLOR, fg="white")
         self.score.grid(row=1, column=2, sticky="W", pady=10)
         # Create question
-        self.question = tkinter.Canvas(width=300, height=250, bg="white")
-        self.question_text = self.question.create_text(150, 125, text="question text",
+        self.question = tkinter.Canvas(width=300, height=270, bg="white")
+        self.question_text = self.question.create_text(150, 135, text="question text",
                                                        fill=THEME_COLOR, font=QUESTION_FONT)
-        self.question.grid(row=2, column=1, columnspan=2, pady=20)
+        self.question.grid(row=2, column=1, columnspan=2, pady=30)
         # Create "true" button
         true_img = tkinter.PhotoImage(file="./images/true.png")
         self.true_button = tkinter.Button(image=true_img)
@@ -38,4 +39,3 @@ class QuizInterface:
     def show_window_size(self):
         # For debugging purposes. Prints the measurements of the main window.
         print(self.window.winfo_width(), self.window.winfo_height())
-        
