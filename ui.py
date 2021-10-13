@@ -29,12 +29,14 @@ class QuizInterface:
         self.question.grid(row=2, column=1, columnspan=2, pady=30)
         # Create "true" button
         true_img = tkinter.PhotoImage(file="./images/true.png")
-        self.true_button = tkinter.Button(image=true_img)
+        self.true_button = tkinter.Button(image=true_img,
+                                          command=self.true_button_press)
         self.true_button.config(bg=THEME_COLOR)
         self.true_button.grid(row=3, column=1, pady=20)
         # Create "false" button
         false_img = tkinter.PhotoImage(file="./images/false.png")
-        self.false_button = tkinter.Button(image=false_img)
+        self.false_button = tkinter.Button(image=false_img,
+                                           command=self.false_button_press)
         self.false_button.config(bg=THEME_COLOR)
         self.false_button.grid(row=3, column=2, pady=20)
         # Generate and display a question
@@ -42,10 +44,16 @@ class QuizInterface:
         # Keep window open
         self.window.mainloop()
 
-    def show_window_size(self):
-        # For debugging purposes. Prints the measurements of the main window.
-        print(self.window.winfo_width(), self.window.winfo_height())
-
     def get_next_question(self):
         q_text = self.quiz.next_question()
         self.question.itemconfig(self.question_text, text=q_text)
+
+    def true_button_press(self):
+        self.quiz.check_answer("True")
+
+    def false_button_press(self):
+        self.quiz.check_answer("False")
+
+    def show_window_size(self):
+        # For debugging purposes. Prints the measurements of the main window.
+        print(self.window.winfo_width(), self.window.winfo_height())
