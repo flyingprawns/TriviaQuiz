@@ -1,5 +1,6 @@
 from question_model import Question
 from quiz_brain import QuizBrain
+from ui import QuizInterface
 import requests
 
 API_URL = "https://opentdb.com/api.php"
@@ -24,8 +25,7 @@ for question in question_data:
 
 # ------------------ CREATE AND RUN QUIZ ------------------------ #
 quiz = QuizBrain(question_bank)
-while quiz.still_has_questions():
-    quiz.next_question()
+quiz_ui = QuizInterface()
 
 # ------------------- END OF PROGRAM ---------------------------- #
 print("You've completed the quiz")
