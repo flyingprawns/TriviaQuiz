@@ -23,9 +23,10 @@ class QuizInterface:
         self.score.grid(row=1, column=2, sticky="W", pady=10)
         # Create question
         self.question = tkinter.Canvas(width=300, height=270, bg="white")
-        self.question_text = self.question.create_text(150, 135, text="question text",
+        self.question_text = self.question.create_text(150, 135, text="default question",
                                                        width=280,
                                                        fill=THEME_COLOR, font=QUESTION_FONT)
+        self.get_next_question()
         self.question.grid(row=2, column=1, columnspan=2, pady=30)
         # Create "true" button
         true_img = tkinter.PhotoImage(file="./images/true.png")
@@ -39,20 +40,30 @@ class QuizInterface:
                                            command=self.false_button_press)
         self.false_button.config(bg=THEME_COLOR)
         self.false_button.grid(row=3, column=2, pady=20)
-        # Generate and display a question
-        self.get_next_question()
         # Keep window open
         self.window.mainloop()
 
     def get_next_question(self):
+        self.question.config(bg="white")
         q_text = self.quiz.next_question()
         self.question.itemconfig(self.question_text, text=q_text)
 
     def true_button_press(self):
-        self.quiz.check_answer("True")
+        is_right = self.quiz.check_answer("True")
+        self.give_feedback(is_right)
 
     def false_button_press(self):
-        self.quiz.check_answer("False")
+        is_right = self.quiz.check_answer("False")
+        self.give_feedback(is_right)
+
+    def give_feedback(self, is_right: bool):
+        # Change question canvas to green/red for 1 second
+        if is_right:
+            self.question.config(bg="green")
+        else:
+            self.question.config(bg="red")
+        # WARNING: be very careful with this method. It is not well documented and can lead to unexpected bugs.
+        self.window.after(1000, self.get_next_question)
 
     def show_window_size(self):
         # For debugging purposes. Prints the measurements of the main window.
