@@ -11,7 +11,8 @@ class QuizInterface:
         # Create GUI window
         self.window = tkinter.Tk()
         self.window.title("Trivia Quiz!")
-        self.window.config(pady=20, padx=25, bg=THEME_COLOR)
+        self.window.config(pady=20, padx=35, bg=THEME_COLOR)
+        self.window.minsize(width=374, height=522)
         # Create score
         self.score = tkinter.Label(text="Score: 0", font=SCORE_FONT)
         self.score.config(bg=THEME_COLOR, fg="white")
@@ -33,3 +34,8 @@ class QuizInterface:
         self.false_button.grid(row=3, column=2, pady=20)
         # Keep window open
         self.window.mainloop()
+
+    def show_window_size(self):
+        # For debugging purposes. Prints the measurements of the main window.
+        print(self.window.winfo_width(), self.window.winfo_height())
+        
